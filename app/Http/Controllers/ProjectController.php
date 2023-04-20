@@ -6,6 +6,7 @@ use App\Models\Project;
 use App\Http\Requests\StoreProjectRequest;
 use App\Http\Requests\UpdateProjectRequest;
 
+
 class ProjectController extends Controller
 {
     /**
@@ -43,7 +44,7 @@ class ProjectController extends Controller
     {
         $data = $request->all();
 
-        $new_project = new Project();
+        $new_project = new Project;
         $new_project->title = $data['title'];
         $new_project->client = $data['client'];
         $new_project->description = $data['description'];
@@ -61,7 +62,7 @@ class ProjectController extends Controller
      */
     public function show(Project $project)
     {
-        return view('index.show', compact('project'));
+        return view('projects.show', compact('project'));
     }
 
     /**
@@ -72,7 +73,7 @@ class ProjectController extends Controller
      */
     public function edit(Project $project)
     {
-        //
+        return view('projects.edit', compact('project'));
     }
 
     /**
@@ -84,7 +85,15 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        //
+        $data = $request->all();
+
+        $project->title = $data['title'];
+        $project->client = $data['client'];
+        $project->description = $data['description'];
+
+        $project->save();
+
+        return to_route('projects.show', $project);
     }
 
     /**
@@ -95,6 +104,8 @@ class ProjectController extends Controller
      */
     public function destroy(Project $project)
     {
-        //
+        $project->delete();
+
+        return to_route('projects.index');
     }
 }

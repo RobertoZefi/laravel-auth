@@ -24,10 +24,17 @@
             @foreach ($projects as $project)
                 <tr>
                     <td>{{ $project->id }}</td>
-                    <td>{{ $project->title }}</td>
+                    <td> <a href="{{ route('projects.show', $project) }}">{{ $project->title }}</a></td>
                     <td>{{ $project->client }}</td>
                     <td>{{ $project->description }}</td>
-                    <td><a class="btn btn-primary btn-sm" href="">Modifica</a></td> 
+                    <td><a class="btn btn-primary btn-sm" href="{{ route('projects.edit', $project) }}">Modifica</a></td> 
+                    <td>
+                        <form action="{{ route('projects.destroy', $project) }}" method="POST">
+                            @csrf
+                            @method('DELETE')
+                            <input class="btn btn-danger btn-sm" type="submit" value="Elimina">
+                        </form>
+                    </td> 
                 </tr>
             @endforeach
             </tbody>
