@@ -42,7 +42,11 @@ class ProjectController extends Controller
      */
     public function store(StoreProjectRequest $request)
     {
-        $data = $request->all();
+        $data = $request->validate([
+            'title' => 'required|max:255|min:2',
+            'client' => 'required|string|min:2',
+            'description' => 'required',
+        ]);
 
         $new_project = new Project;
         $new_project->title = $data['title'];
@@ -85,7 +89,11 @@ class ProjectController extends Controller
      */
     public function update(UpdateProjectRequest $request, Project $project)
     {
-        $data = $request->all();
+        $data = $request->validate([
+            'title' => 'required|max:255|min:2',
+            'client' => 'required|string|min:2',
+            'description' => 'required',
+        ]);
 
         $project->title = $data['title'];
         $project->client = $data['client'];
